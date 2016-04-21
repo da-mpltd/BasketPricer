@@ -2,6 +2,8 @@ package com.da;
 
 import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A Checkout takes one Basket at a time to have its cost calculated
@@ -24,12 +26,9 @@ public class Checkout {
 	public static void main(String[] args) {
 		
 		Basket fruitBasket = new Basket();
-		
-		Predicate<Item> basketAdditionPolicy = i -> i.getName().equalsIgnoreCase("banana")
-				||i.getName().equalsIgnoreCase("orange")
-				||i.getName().equalsIgnoreCase("apple")
-				||i.getName().equalsIgnoreCase("lemon")
-				||i.getName().equalsIgnoreCase("peach");
+
+		Predicate<Item> basketAdditionPolicy = i -> Stream.of("banana", "orange","apple","lemon","peach")
+		.collect(Collectors.toSet()).contains(i.getName().toLowerCase());
 		
 		fruitBasket.add(basketAdditionPolicy, new Item("banana", 25));
 		fruitBasket.add(basketAdditionPolicy, new Item("oRange", 45)); //adhoc testing
