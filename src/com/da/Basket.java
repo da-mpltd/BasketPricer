@@ -12,6 +12,7 @@ import java.util.function.Predicate;
  */
 public class Basket {
 
+	//Map<Item, Integer> may be an improvement if the use case for baskets become complex and need quantities easily.
 	private List<Item> items;
 
 	public Basket() {
