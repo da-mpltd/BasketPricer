@@ -13,7 +13,7 @@ public class Basket {
 	private Map<Item, Integer> items;
 	
 	public Basket() {
-		this.items = new HashMap<Item,Integer>();
+		this.items = new HashMap<>();
 	}
 
 	public void add(Predicate<Item> basketAdditionPolicy, Item item) {
