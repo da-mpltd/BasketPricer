@@ -31,18 +31,26 @@ public class Checkout {
 		.collect(Collectors.toSet()).contains(i.getName().toLowerCase());
 		
 		fruitBasket.add(basketAdditionPolicy, new Item("banana", 25));
-		fruitBasket.add(basketAdditionPolicy, new Item("oRange", 45)); //adhoc testing
-		fruitBasket.add(basketAdditionPolicy, new Item("apple", 35));
+		fruitBasket.add(basketAdditionPolicy, new Item("banana", 25));
+		fruitBasket.add(basketAdditionPolicy, new Item("apple", 35),3);
 		fruitBasket.add(basketAdditionPolicy, new Item("lemon", 55));
 		fruitBasket.add(basketAdditionPolicy, new Item("peach", 95));
-		fruitBasket.add(basketAdditionPolicy, new Item("kiwi", 999)); //adhoc testing
+		
+		//adhoc testing- JUnit would be the preference, Items are not complex enough to warrant using Mockito.
+		fruitBasket.add(basketAdditionPolicy, new Item("oRange", 45));
+		fruitBasket.add(basketAdditionPolicy, new Item("kiwi", 999));
 
+		
 		Checkout checkout = new Checkout(fruitBasket);
 		
-		ToIntFunction<Basket> totalCostPricingStrategy = b -> b.getContents().stream().mapToInt(item -> item.getPencePrice()).sum();
+		ToIntFunction<Basket> totalCostPricingStrategy = b -> b.getItems()
+				.entrySet()
+				.stream()
+				.mapToInt(entry -> entry.getKey().getPencePrice() * entry.getValue()).sum();
 		
-		//Avoiding Loggers to reduce import statements
+		//Avoiding Loggers to keep as standalone and not dependent on other projects.
 		System.out.println(checkout.priceBasketInPence(totalCostPricingStrategy));
+		//Expected Value: 25+25+35+35+35+55+95+45=350
 	}
 
 }
